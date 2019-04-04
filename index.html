@@ -21,7 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 600 },
             debug: false
         }
     },
@@ -57,6 +57,11 @@ function create ()
     //  A simple background for our game
     this.add.image(400, 300, 'sky');
 
+    rt = this.make.renderTexture({x:0, y:0, width:800, height:600});
+
+    trail = this.add.image(-10,-10, 'dude');
+    trail.setOrigin(0.5, 0.5);
+
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
@@ -74,7 +79,7 @@ function create ()
 
     //  Player physics properties. Give the little guy a slight bounce.
     player.setCollideWorldBounds(true);
-
+    player.body.setMaxVelocity(160, 500);
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
@@ -127,6 +132,8 @@ function create ()
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+    ZKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+    console.log(player);
 }
 
 function update ()
@@ -136,30 +143,76 @@ function update ()
         return;
     }
 
+    run = false;
+
+    if (ZKey.isDown){
+        player.body.setMaxVelocity(250, 500);
+        run = true;
+        console.log(run);
+    } else {
+        player.body.setMaxVelocity(160, 500);
+        run = false;
+        console.log(run);
+
+    }
+
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
-
+        player.body.blocked.down ?  player.setAccelerationX(-300 - 100*run) :  player.setAccelerationX(-800);
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
-
+        player.body.blocked.down ? player.setAccelerationX(300 + 100*run) :  player.setAccelerationX(800);
         player.anims.play('right', true);
     }
+
     else
     {
         player.setVelocityX(0);
+        player.setAccelerationX(0);
 
         player.anims.play('turn');
     }
 
     if (cursors.up.isDown && player.body.blocked.down )
     {
-        player.setVelocityY(-330);
-        console.log(player.body.blocked.down);
+        player.setVelocityY(-400 - player.body.speed*0.15);
     }
+    if (cursors.up.isUp && player.body.velocity.y < 0){
+        player.setVelocityY(player.body.velocity.y * 0.9);
+    }
+
+    if(player.body.velocity.y < 0) {
+        //player.setVelocityY(config.physics.arcade.gravity.y * 1.5 * time)
+        trail.setTint(0xff0000);
+        trail.setPosition(player.body.x + player.body.width/2, player.body.y + player.body.height/2);
+        rt.draw(trail)
+        trail.setPosition(-10, -10);
+    } else if (player.body.velocity.y > 0) {
+        trail.setTint(0x0000ff);
+        trail.setPosition(player.body.x + player.body.width/2, player.body.y + player.body.height/2);
+        rt.draw(trail)
+        trail.setPosition(-10, -10);
+    }
+
+    if(cursors.down.isDown){
+        rt.clear();
+    }
+    /*
+    fallMultiplier = 2.5;
+    lowJumpMultiplier = 2;
+
+    if(rb.velocity.y < 0) {
+        rb.velocity += vector2.up * gravity.y * (fallmultiplier -1) * Time.deltaTime;
+    } else if (rb.velocity.y > 0 && !Input.GetButton("Jump")) {
+        rb.velocity += vector2.up * gravity.y * (lowJump Multiplier -1) * Time.deltaTime;
+    }
+
+    }
+
+    */
+
 }
 
 function collectStar (player, star)
