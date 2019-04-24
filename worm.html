@@ -1,0 +1,76 @@
+<html>
+    <head> 
+        <meta charset="UTF-8" />
+        <title>worm</title>
+        <script src="phaser.min.js"></script>
+        <script src="dat.gui.min.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+<body>
+
+<script type="text/javascript">
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    parent: 'phaser-example',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: { y: 0 }
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+var group;
+function preload ()
+{
+    this.load.image('ball', 'assets/ball.png');
+}
+
+function create ()
+{
+
+    text = this.add.text(10, 10, '', { fill: '#00ff00' }).setDepth(1);
+
+        group = this.physics.add.group({
+        key: 'ball',
+        frameQuantity: 12,
+        setXY:{x:300, y:300},
+        setScale:{x:1, y:1, stepY:0.1, stepX:0.1},
+        setCollideWorldBounds: true
+    });
+    group.getChildren().forEach(element => {
+        element.setTintFill(Math.random() * 16000000);
+    });
+}
+
+function update (){
+    var pointer = this.input.activePointer;
+    text.setText([
+        'x  ' + pointer.worldX,
+        'y  ' + pointer.worldY
+    ])
+    var array = group.getChildren()
+    for(var i =0; i<12; i++){
+            if(i===0){
+               this.physics.moveTo(array[11-i], pointer.worldX, pointer.worldY, 600-50*i);
+            } else {
+                this.physics.moveToObject(array[11-i], array[11-i+1], 600-50*i*0.7);
+            }
+    }}
+</script>
+</body>
+</html>
