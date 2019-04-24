@@ -1,0 +1,62 @@
+<html>
+    <head> 
+        <meta charset="UTF-8" />
+        <title>wave</title>
+        <script src="phaser.min.js"></script>
+        <script src="dat.gui.min.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+<body>
+
+<script type="text/javascript">
+var config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    parent: 'phaser-example',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: { y: 0 }
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+var iter = 0;
+var sprite = [];
+function preload ()
+{
+    this.load.image('ball', 'assets/ball.png');
+}
+
+function create ()
+{
+   for (let index = 0; index < 9; index++) {
+    sprite[index] = this.add.sprite(100+index*70,300, 'ball');
+    sprite[index].setTintFill(  (16000000*index-1 )/ 10);
+   }
+
+}
+
+function update (){
+    for(let index =0; index <9; index++ ){
+        sprite[index].setScale((1-Math.sin(iter+(index)))/2);
+        sprite[index].setY(300+70*Math.sin(iter+(index)))
+    }
+    iter += 0.05;
+    }
+</script>
+</body>
+</html>
