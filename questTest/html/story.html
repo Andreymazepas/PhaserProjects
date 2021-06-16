@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DedalusWeb Story</title>
+
+    <script src="http://olado.github.io/doT/doT.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="../dedalus.js"></script>
+    <script src="../dedalus-web.js"></script>
+
+    <link rel="stylesheet" href="themes/plain/story.css">
+
+ </head>
+<body>
+    <div id="story">
+
+        <initscript>
+        </initscript>
+
+        <beforeEveryThing>
+        </beforeEveryThing>
+
+        <beforeEveryPageTurn>
+        </beforeEveryPageTurn>
+
+        <beforeEveryParagraphShown>
+        </beforeEveryParagraphShown>
+
+        <afterEveryThing>
+        </afterEveryThing>
+
+        <afterEveryPageTurn>
+        </afterEveryPageTurn>
+
+        <afterEveryParagraphShown>
+        </afterEveryParagraphShown>
+
+        <!-- Novel -->
+        <title>Questionário</title>
+
+        <!-- Objects -->
+        <obj id="dummyObject" inventoryName="An object">
+            <action id="Examine">
+                Something happens... who knows what?!
+            </action>
+
+            <action id="Get">
+                <when>!story.isInInventory('dummyObject')</when>
+                As you try to get it... It is clear that the inventory works!
+                {{ story.putInInventory('dummyObject'); }}
+            </action>
+
+        </obj>
+
+        <!-- Pages -->
+        <page id="intro">
+            .
+        </page>
+
+        <page id="dummyPage" class="first">
+            <p>
+                Q1. Você está de plantão em uma UPA no interior de Minas Gerais, o hospital de referência está a pouco mais de 3 horas de distância. No seu primeiro dia de trabalho você encontra dona Arlinda, 62 anos, hipertensa e diabética, que procura o serviço médico por um quadro de dor torácica iniciada há cerca de 3 horas, acompanhada por dispneia. Relata que já apresentou dor semelhante anteriormente, mas com melhora após uso de Dipirona. Hoje não fez uso de nenhuma medicação para a dor. Faz uso de Hidroclorotiazida, Losartana e Metformina. Refere que no momento da dor estava trocando a resistência do chuveiro de sua casa. Avaliada pela enfermagem na triagem com os seguintes sinais vitais: 
+PA: 180x93 mmHg, FC 89 bpm, Temperatura 36,8ºC, Glicemia Capilar 160 mg/dL, SatO2 92% em ar ambiente. 
+            </p>
+            <p>Qual a sua conduta inicial?</p>
+
+            <p><turn to="Q2">A. Solicitar o ECG de 12 derivações</turn></p>
+            <p><turn to="Q3">B. Radiografia de tórax</turn></p>
+            <p><turn to="Q4.1">C. Dipirona 1g EV imediatamente</turn></p>
+            <p><turn to="Q4.1">D. Solicitar Dímero D</turn></p>
+        </page>
+
+        <page id="otherPage">
+            Plot twist! The story ends abruptly.
+            {{ story.endGame(); }}
+        </page>
+
+        <page id="Q2">
+            <p>
+                Q2. Realizado ECG, abaixo. Questionado sobre características da dor, a paciente refere localização em região precordial, irradiada para epigástrio e dorso. Nega melhora com repouso.
+            </p>
+            <img alt="q2" src="./q2.png">
+            <p>Qual a conduta a seguir?</p>
+            <p><turn to="QFinal.1">A. Realizar trombólise com alteplase</turn></p>
+            <p><turn to="Q3">B. Radiografia de tórax</turn></p>
+            <p><turn to="Q4.1">C. Solicitar marcadores de necrose miocárdica</turn></p>
+            <p><turn to="Q4.1">D. Encaminhar para sala de emergência para monitorização contínua</turn></p>
+        </page>
+
+        <page id="Q3">
+            <p>Realizado Rx de tórax, abaixo:</p>
+            <img alt="q3" src="./q3.png" >
+            <p>Qual o próximo passo?</p>
+            <p><turn to="Q4">A. Angiotomografia de aorta</turn></p>
+            <p><turn to="Q5">B. Cateterismo cardíaco</turn></p>
+            <p><turn to="Q5">C. Solicitar marcadores de lesão miocárdica</turn></p>
+            <p><turn to="Q5">D. Manter o paciente em sala de emergência e realizar controle de duplo produto</turn></p>
+        </page>
+
+        <page id="QFinal.1">
+            <p>
+                É realizada infusão de alteplase EV após monitorização da paciente em sala de emergência. Paciente evolui com PA 68x43 mmHg, rebaixamento de nível de consciência e um episódio de hematêmese. Exame físico: mau estado geral, ausculta cardíaca com hipofonese importante de bulhas cardíacas, turgência jugular bilateral, FC 53 bpm. SatO2 82% em ar ambiente, MV+ com estertores até terço médio bilateralmente.
+            </p>
+            <p>
+                Optado por intubação orotraqueal, solicitados hemoderivados e vitamina K. Paciente apresenta novo episódio de hematêmese maciça e PCR após. Realizadas manobras de ressuscitação por 40 minutos, sem sucesso.
+            </p>
+            <p>
+                Fim do questionário.
+            </p>
+            {{ story.endGame(); }}
+        </page>
+
+        <page id="Q4">
+            <p>Realizada angiotomografia de aorta, abaixo:</p>
+            <img alt="q4" src="./q4.png">
+            <p>Qual o diagnóstico e conduta?</p>
+            <p><turn to="QFinal.4">A. Dissecção aórtica; encaminhar para cirurgia imediata</turn></p>
+            <p><turn to="QFinal.1">B. Tromboembolismo pulmonar; dose de ataque de Enoxaparina EV</turn></p>
+            <p><turn to="Q4.1">C. Sem alterações; prosseguir propedêutica investigativa de SCA</turn></p>
+            <p><turn to="Q4.1">D. Úlcera de aorta; controle de duplo produto e avaliação eletiva da cirurgia cardíaca</turn></p>
+        </page>
+
+        <page id="Q4.1">
+            <p>
+                Paciente é levada para a sala de emergência e monitorizada. Mantém quadro de dor torácica importante, sem sinais de instabilidade hemodinâmica. PA 200x105 mmHg, FC 98 bpm. SatO2 91%. Exame físico: estado geral regular, sudoreica. Ausculta pulmonar com diminuição discreta de MV em bases bilateralmente, FR 18 irpm. Ausculta cardíaca com bulhas rítmicas, normofonéticas, sopro diastólico em borda esternal direita, regurgitativo.
+            </p>
+            <p>Qual o próximo passo?</p>
+            <p><turn to="Q5">A. Solicitar marcadores de necrose miocárdica</turn></p>
+            <p><turn to="Q5">B. Iniciar Nitroglicerina endovenosa</turn></p>
+            <p><turn to="Q5">C. Administrar dose de ataque de AAS e Clopidogrel</turn></p>
+            <p><turn to="Q3">D. Rx de tórax</turn></p>
+        </page>
+
+        <page id="Q5">
+            <p>
+                Após realização das medidas, paciente refere melhora parcial do quadro de dor torácica. Primeira troponina negativa. PA 120x92 mmHg, FC 70 bpm. SatO2 96% com cateter nasal de O2 2l por minuto. Ausculta pulmonar com MV reduzido em base bilateralmente. Ausculta cardíaca com bulhas rítmicas, hipofonese moderada, sopro diastólico em borda esternal direita, regurgitativo, menos pronunciado.
+            </p>
+            <p>
+                Qual a próxima conduta?
+            </p>
+            <p><turn to="Q6.1">A. ECG e marcadores de necrose miocárdica seriados</turn></p>
+            <p><turn to="Q6">B. Ecocardiograma transtorácico</turn></p>
+            <p><turn to="Q6.1">C. Manter paciente em observação na sala de emergência com monitorização de PA</turn></p>
+            <p><turn to="Q6.1">D. Internação hospitalar em unidade coronariana</turn></p>
+        </page>
+
+        <page id="Q6">
+            <p>Realizado ecocardiograma abaixo:</p>
+            <img alt="q6" src="./q6.png">
+            <p>Qual a conduta frente ao principal achado?</p>
+            <p><turn to="Q7">A. Pericardiocentese</turn></p>
+            <p><turn to="Q6.1">B. Internação para monitorização</turn></p>
+            <p><turn to="Q6.1">C. Observação em sala de emergência</turn></p>
+            <p><turn to="Q6.1">D. Administrar diurético EV</turn></p>
+        </page>
+
+        <page id="Q6.1">
+            <p>Paciente evolui com quadro de síncope. PA 80x54, FC 51 bpm, satO2 92% com cateter de O2. Monitor mostra ritmo regular, com complexos QRS estreitos, com tamanhos alternantes. Ao exame físico: mau estado geral, ausculta cardíaca com hipofonese importante de bulhas associado a turgência jugular bilateralmente.</p>
+            <p>Qual a conduta imediata?</p>
+            <p><turn to="Q7">A. Pericardiocentese</turn></p>
+            <p><turn to="QFinal.2">B. Intubação orotraqueal</turn></p>
+            <p><turn to="QFInal.2">C. Solicitar ecocardiograma</turn></p>
+            <p><turn to="QFinal.1">D. Trombólise com alteplase</turn></p>
+        </page>
+
+        <page id="QFinal.2">
+            <p>Paciente evolui para PCR. Monitor indica assistolia, realizado protocolo de linha reta com confirmação. Realizadas medidas de reanimação por 40 minutos, sem sucesso.</p>
+            <p>
+                Fim do questionário.
+            </p>
+            {{ story.endGame(); }}
+        </page>
+
+        <page id="Q7">
+            <p>Realizada pericardiocentese com drenagem de 400ml de sangue. Paciente apresentou pouca melhora. Optado por realização de ecocardiograma transesofágico de urgência, abaixo:</p>
+            <img alt="q7" src="./q7.png">
+            <p>Qual o diagnóstico e conduta imediata?</p>
+            <p><turn to="QFinal.4">A. Dissecção de aorta; cirurgia de urgência</turn></p>
+            <p><turn to="QFinal.2">B. Rotura de músculo papilar; solicitar parecer da cirurgia cardíaca</turn></p>
+            <p><turn to="QFInal.2">C. Choque cardiogênico; iniciar dobutamina</turn></p>
+            <p><turn to="QFinal.2">D. Rotura de parede livre; cirurgia de urgência</turn></p>
+        </page>
+
+        <page id="QFinal.4">
+            <p>Paciente submetida a cirurgia de correção de dissecção aórtica Stanford A. Encaminhada para recuperação em UTI coronariana sem complicações no pós operatório.</p>
+            <p>
+                Fim do questionário.
+            </p>
+            {{ story.endGame(); }}
+        </page>
+
+
+
+
+    </div>
+
+    <div id="wrapper">
+        <div id="title"></div>
+
+        <!-- <div id="inventoryHostWrapper">
+            <h2>Inventory</h2>
+            <div id="inventoryHost"></div>
+        </div> -->
+
+        <div id="host"></div>
+    </div>
+
+    <div id="interactionHost"></div>
+
+    <div id="undoStageHost"></div>
+
+    <div id="footer">
+        <a id="undoHost" href="#">Undo</a> &bull; <a id="saveHost" href="#">Save</a> &bull; <a id="restoreHost" href="#">Restore</a> &bull; <a id="resetHost" href="#">Reset</a>
+    </div>
+
+    <script>
+        $(function () {
+            new DedalusWeb({
+                domSource         : $('#story'),
+                domTarget         : $('#host'),
+                titleTarget       : $('#title'),
+                inventoryTarget   : $('#inventoryHost'),
+                interactionTarget : $('#interactionHost'),
+                undoTarget        : $('#undoHost'),
+                undoStageTarget   : $('#undoStageHost'),
+                saveTarget        : $('#saveHost'),
+                restoreTarget     : $('#restoreHost'),
+                resetTarget       : $('#resetHost'),
+            });
+        });
+
+    </script>
+</body>
+</html>
